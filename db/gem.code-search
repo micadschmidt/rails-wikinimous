@@ -1,0 +1,168 @@
+# Query: gem
+# ContextLines: 1
+
+74 results - 7 files
+
+Gemfile:
+   1: source "https://rubygems.org"
+   2  git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+
+   5  
+   6: # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
+   7: gem "rails", "~> 7.0.3", ">= 7.0.3.1"
+   8  
+   9  # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
+  10: gem "sprockets-rails"
+  11  
+  12  # Use sqlite3 as the database for Active Record
+  13: gem "sqlite3", "~> 1.4"
+  14  
+  15  # Use the Puma web server [https://github.com/puma/puma]
+  16: gem "puma", "~> 5.0"
+  17  
+  18  # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
+  19: gem "importmap-rails"
+  20  
+  21  # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
+  22: gem "turbo-rails"
+  23  
+  24  # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
+  25: gem "stimulus-rails"
+  26  
+  27  # Build JSON APIs with ease [https://github.com/rails/jbuilder]
+  28: gem "jbuilder"
+  29  
+  30  # Use Redis adapter to run Action Cable in production
+  31: # gem "redis", "~> 4.0"
+  32  
+  33  # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
+  34: # gem "kredis"
+  35  
+  36  # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
+  37: # gem "bcrypt", "~> 3.1.7"
+  38  
+  39: # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+  40: gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+  41  
+  42  # Reduces boot times through caching; required in config/boot.rb
+  43: gem "bootsnap", require: false
+  44  
+  45  # Use Sass to process CSS
+  46: # gem "sassc-rails"
+  47  
+  48  group :development, :test do
+  49:   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  50:   gem "faker"
+        gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  51  end
+
+  54    # Use console on exceptions pages [https://github.com/rails/web-console]
+  55:   gem "web-console"
+  56  
+  57    # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
+  58:   # gem "rack-mini-profiler"
+  59  
+  60    # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
+  61:   # gem "spring"
+  62  end
+
+  65    # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+  66:   gem "capybara"
+  67:   gem "selenium-webdriver"
+  68:   gem "webdrivers"
+  69  end
+
+Gemfile.lock:
+  1: GEM
+  2:   remote: https://rubygems.org/
+  3    specs:
+
+bin/bundle:
+    6  #
+    7: # The application 'bundle' is installed as part of a gem, and
+    8  # this file is here to facilitate running it.
+
+   10  
+   11: require "rubygems"
+   12  
+
+   29      ARGV.each_with_index do |a, i|
+   30:       if update_index && update_index.succ == i && a =~ Gem::Version::ANCHORED_VERSION_PATTERN
+   31          bundler_version = a
+   32        end
+   33:       next unless a =~ /\A--bundler(?:[= ](#{Gem::Version::VERSION_PATTERN}))?\z/
+   34        bundler_version = $1
+
+   39  
+   40:   def gemfile
+   41:     gemfile = ENV["BUNDLE_GEMFILE"]
+   42:     return gemfile if gemfile && !gemfile.empty?
+   43  
+   44:     File.expand_path("../Gemfile", __dir__)
+   45    end
+
+   48      lockfile =
+   49:       case File.basename(gemfile)
+   50:       when "gems.rb" then gemfile.sub(/\.rb$/, gemfile)
+   51:       else "#{gemfile}.lock"
+   52        end
+
+   58      lockfile_contents = File.read(lockfile)
+   59:     return unless lockfile_contents =~ /\n\nBUNDLED WITH\n\s{2,}(#{Gem::Version::VERSION_PATTERN})\n/
+   60      Regexp.last_match(1)
+
+   69    def bundler_requirement_for(version)
+   70:     return "#{Gem::Requirement.default}.a" unless version
+   71  
+   72:     bundler_gem_version = Gem::Version.new(version)
+   73  
+   74:     requirement = bundler_gem_version.approximate_recommendation
+   75  
+   76:     return requirement unless Gem.rubygems_version < Gem::Version.new("2.7.0")
+   77  
+   78:     requirement += ".a" if bundler_gem_version.prerelease?
+   79  
+
+   83    def load_bundler!
+   84:     ENV["BUNDLE_GEMFILE"] ||= gemfile
+   85  
+
+   89    def activate_bundler
+   90:     gem_error = activation_error_handling do
+   91:       gem "bundler", bundler_requirement
+   92      end
+   93:     return if gem_error.nil?
+   94      require_error = activation_error_handling do
+
+   96      end
+   97:     return if require_error.nil? && Gem::Requirement.new(bundler_requirement).satisfied_by?(Gem::Version.new(Bundler::VERSION))
+   98:     warn "Activating bundler (#{bundler_requirement}) failed:\n#{gem_error.message}\n\nTo install the version of bundler this project requires, run `gem install bundler -v '#{bundler_requirement}'`"
+   99      exit 42
+
+  112  if m.invoked_as_script?
+  113:   load Gem.bin_path("bundler", "bundle")
+  114  end
+
+bin/setup:
+  16    puts "== Installing dependencies =="
+  17:   system! "gem install bundler --conservative"
+  18    system("bundle check") || system!("bundle install")
+
+config/application.rb:
+  16  
+  17: # Require the gems listed in Gemfile, including any gems
+  18  # you've limited to :test, :development, or :production.
+
+config/boot.rb:
+  1: ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../Gemfile", __dir__)
+  2  
+  3: require "bundler/setup" # Set up gems listed in the Gemfile.
+  4  require "bootsnap/setup" # Speed up boot time by caching expensive operations.
+
+config/database.yml:
+  1  # SQLite. Versions 3.8.0 and up are supported.
+  2: #   gem install sqlite3
+  3  #
+  4: #   Ensure the SQLite 3 gem is defined in your Gemfile
+  5: #   gem "sqlite3"
+  6  #

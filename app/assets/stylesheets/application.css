@@ -13,3 +13,18 @@
  *= require_tree .
  *= require_self
  */
+.navbar {
+  padding: 8px;
+}
+
+.container{
+  margin: 0 auto;
+}
+
+.list{
+  font-size: 30px;
+  font-family: "Roboto Slab";
+  font-weight: 400;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}

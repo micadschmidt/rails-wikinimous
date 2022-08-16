@@ -1,0 +1,14 @@
+<nav class="navbar navbar-light bg-light justify-content-between">
+  <a <%= link_to "Wikinimous", articles_path, class: "navbar-brand mb-0 h1" %></a>
+  <a <%= link_to "New article", new_article_path, class: "navbar-brand" %></a>
+</nav>
+
+<div class="card">
+  <div class="card-body">
+    <h2><%= @article.title %></h2>
+    <p><%= @article.content %></p>
+
+    <p><%= link_to "Edit", edit_article_path(@article), class: "text-decoration-none" %> <i class="fa-regular fa-pen-to-square"></i></p>
+    <p><%= link_to "Delete  ", article_path(@article), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}, class: "text-decoration-none" %> <i class="fa-regular fa-trash-can"></i></p>
+  </div>
+</div>

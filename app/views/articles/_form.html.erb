@@ -1,0 +1,14 @@
+<nav class="navbar navbar-light bg-light justify-content-between">
+  <a <%= link_to "Wikinimous", articles_path, class: "navbar-brand mb-0 h1" %></a>
+  <a <%= link_to "New article", new_article_path, class: "navbar-brand" %></a>
+</nav>
+
+<%= form_for(@article) do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+  <%= f.label :content %>
+  <%= f.text_field :content %>
+  <%= f.submit %>
+<% end %>
+
+<p><%= link_to "Back", articles_path, class: "text-decoration-none" %><i class="fa-regular fa-circle-left"></i></p>
